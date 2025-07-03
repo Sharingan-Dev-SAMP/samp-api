@@ -1,0 +1,3 @@
+flask
+samp-client
+gunicorn
