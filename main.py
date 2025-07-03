@@ -11,8 +11,11 @@ async def check_server(ip_port: str):
         
         with SampClient(address=ip, port=port) as client:
             info = client.get_server_info()
-            clients = client.get_server_clients()[:5]
-            players = [{"name": client.name, "ping": client.ping} for client in clients]
+            try:
+                clients = client.get_server_clients_detailed()[:5]
+                players = [{"name": client.name, "ping": client.ping} for client in clients]
+            except Exception:
+                players = []
             
             return {
                 "online": True,
@@ -26,5 +29,5 @@ async def check_server(ip_port: str):
             }
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid IP:port format. Use ip:port (e.g., 51.254.178.238:7777)")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+    except Exception:
+        return {"online": False}
