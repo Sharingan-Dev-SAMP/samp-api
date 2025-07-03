@@ -1,9 +1,15 @@
 {
   "version": 2,
-  "functions": {
-    "api/check.py": {
-      "memory": 128,
-      "maxDuration": 10
+  "builds": [
+    {
+      "src": "api/check.py",
+      "use": "@vercel/python"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/api/check",
+      "dest": "api/check.py"
+    }
+  ]
 }
